@@ -4,14 +4,34 @@
 import json
 import base64
 import boto3
-from cdktf import App, TerraformOutput
 from constructs import Construct
-from cdktf_cdktf_provider_aws import (
-    EksCluster, EksNodeGroup, IamRole, IamRolePolicyAttachment, IamPolicy,
-    S3Bucket, SecurityGroup, SecurityGroupIngress, SecretsmanagerSecret,
-    SecretsmanagerSecretVersion, RdsCluster, EcrRepository
-)
-from cdktf_cdktf_provider_kubernetes import KubernetesProvider, Service, ServiceSpecPort
+from cdktf import App, TerraformStack, TerraformOutput
+from cdktf_cdktf_provider_aws.provider import AwsProvider
+from cdktf_cdktf_provider_aws.vpc import Vpc
+from cdktf_cdktf_provider_aws.subnet import Subnet
+from cdktf_cdktf_provider_aws.iam_role import IamRole
+from cdktf_cdktf_provider_aws.iam_policy import IamPolicy
+from cdktf_cdktf_provider_aws.iam_role_policy_attachment import IamRolePolicyAttachment
+from cdktf_cdktf_provider_aws.s3_bucket import S3Bucket
+from cdktf_cdktf_provider_aws.eks_cluster import EksCluster
+from cdktf_cdktf_provider_aws.eks_node_group import EksNodeGroup
+from cdktf_cdktf_provider_aws.ecr_repository import EcrRepository
+from cdktf_cdktf_provider_aws.rds_cluster import RdsCluster
+from cdktf_cdktf_provider_aws.rds_cluster_instance import RdsClusterInstance
+from cdktf_cdktf_provider_aws.secretsmanager_secret import SecretsmanagerSecret
+from cdktf_cdktf_provider_aws.secretsmanager_secret_version import SecretsmanagerSecretVersion
+from cdktf_cdktf_provider_aws.security_group import SecurityGroup, SecurityGroupIngress
+from cdktf_cdktf_provider_aws.internet_gateway import InternetGateway
+from cdktf_cdktf_provider_aws.route_table import RouteTable
+from cdktf_cdktf_provider_aws.route import Route
+from cdktf_cdktf_provider_aws.route_table_association import RouteTableAssociation
+from cdktf_cdktf_provider_kubernetes.provider import KubernetesProvider
+from cdktf_cdktf_provider_kubernetes.deployment import Deployment
+from cdktf_cdktf_provider_kubernetes.service import Service
+from cdktf_cdktf_provider_aws.lb import Lb
+from cdktf_cdktf_provider_aws import db_subnet_group
+
+
 from dotenv import load_dotenv
 import os
 
