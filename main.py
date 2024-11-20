@@ -53,6 +53,26 @@ class MyStack(Construct):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
+         # Create a VPC
+        vpc = Vpc(self, 'Vpc', cidr_block='10.0.0.0/16')
+
+        # Create an Internet Gateway
+        internet_gateway = InternetGateway(self, 'InternetGateway', vpc_id=vpc.id)
+
+        # Create a Route Table for the public subnets
+        public_route_table = RouteTable(self, 'PublicRouteTable', vpc_id=vpc.id)
+
+        # Create a route to the Internet Gateway
+        Route(self, 'RouteToInternet', route_table_id=public_route_table.id, destination_cidr_block='0.0.0.0/0', gateway_id=internet_gateway.id)
+
+        # Create subnets
+        subnet1 = Subnet(self, 'Subnet1', vpc_id=vpc.id, cidr_block='10.0.1.0/24', availability_zone='us-east-1a')
+        subnet2 = Subnet(self, 'Subnet2', vpc_id=vpc.id, cidr_block='10.0.2.0/24', availability_zone='us-east-1b')
+
+        # Associate the public subnets with the Route Table
+        RouteTableAssociation(self, 'Subnet1RouteTableAssociation', subnet_id=subnet1.id, route_table_id=public_route_table.id)
+        RouteTableAssociation(self, 'Subnet2RouteTableAssociation', subnet_id=subnet2.id, route_table_id=public_route_table.id)
+
         # Create a security group for EKS clusters
         eks_security_group = SecurityGroup(self, 'EksSecurityGroup', vpc_id=vpc.id, description='EKS Security Group')
         eks_security_group.put_ingress([SecurityGroupIngress(from_port=0, to_port=0, protocol="-1", cidr_blocks=['0.0.0.0/0'])])
