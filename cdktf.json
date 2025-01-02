@@ -1,9 +1,9 @@
 {
   "language": "python",
   "app": "pipenv run python main.py",
-  "projectId": "de800477-fb31-4469-8aa4-9e7e33c5452b",
+  "projectId": "2b8f12e4-9fa0-4075-b327-ddb81434e680",
   "sendCrashReports": "false",
-  "terraformProviders": [],
+  "terraformProviders": ["aws"],
   "terraformModules": [],
   "codeMakerOutput": "imports",
   "context": {
